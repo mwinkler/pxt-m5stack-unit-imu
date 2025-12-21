@@ -1,7 +1,7 @@
 {
     "name": "m5stack-unit-imu",
     "version": "1.0.0",
-    "description": "",
+    "description": "MakeCode extension for M5Stack Unit IMU (6886) - 6-axis IMU sensor with accelerometer and gyroscope",
     "license": "MIT",
     "dependencies": {
         "core": "*"
@@ -10,5 +10,10 @@
         "README.md",
         "main.ts"
     ],
-    "public": true
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": true,
+    "supportedTargets": ["maker"],
+    "preferredEditor": "tsprj"
 }

@@ -1,0 +1,14 @@
+{
+    "name": "m5stack-unit-imu",
+    "version": "1.0.0",
+    "description": "",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts"
+    ],
+    "public": true
+}

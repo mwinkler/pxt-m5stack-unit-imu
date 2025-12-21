@@ -46,5 +46,8 @@ basic.forever(function () {
 - Uses MakeCode I2C helpers; no native shims required.
 - Default I2C pins depend on the target board configuration.
 
+## Source Reference
+- Based on the reference implementation from the M5Stack examples: https://github.com/m5stack/M5-ProductExampleCodes/tree/master/Unit/IMU_Unit
+
 ## License
 MIT

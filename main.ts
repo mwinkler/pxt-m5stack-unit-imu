@@ -156,7 +156,7 @@ namespace m5imu {
     /**
      * Initialize the IMU sensor
      */
-    //% blockId=imu6886_init block="initialize IMU6886"
+    //% blockId=m5imu_init block="initialize IMU sensor"
     //% weight=100
     export function init(): void {
         if (initialized) return
@@ -234,7 +234,7 @@ namespace m5imu {
     /**
      * Determine orientation based on current acceleration
      */
-    //% blockId=imu6886_orientation block="orientation"
+    //% blockId=m5imu_orientation block="orientation"
     //% weight=85
     //% group="Accelerometer"
     export function getOrientation(): Orientation {
@@ -255,7 +255,7 @@ namespace m5imu {
     /**
      * Determine dominant rotation based on current gyroscope
      */
-    //% blockId=imu6886_rotation block="rotation"
+    //% blockId=m5imu_rotation block="rotation"
     //% weight=79
     //% group="Gyroscope"
     export function getRotation(): Rotation {
@@ -282,9 +282,11 @@ namespace m5imu {
     /**
      * Convert rotation to a string label
      */
-    //% blockId=imu6886_rotation_name block="rotation name %rotation"
+    //% blockId=m5imu_rotation_name block="rotation name %rotation"
+    //% rotation.shadow="m5imu_rotation"
     //% weight=78
     //% group="Gyroscope"
+    //% advanced=true
     export function getRotationName(rotation: number): string {
         switch (rotation) {
             case Rotation.Roll_Right: return "roll right"
@@ -301,9 +303,11 @@ namespace m5imu {
     /**
      * Convert orientation to a string label
      */
-    //% blockId=imu6886_orientation_name block="orientation name %orientation"
+    //% blockId=m5imu_orientation_name block="orientation name %orientation"
+    //% orientation.shadow="m5imu_orientation"
     //% weight=84
     //% group="Accelerometer"
+    //% advanced=true
     export function getOrientationName(orientation: number): string {
         switch (orientation) {
             case Orientation.Top: return "top"
@@ -319,8 +323,9 @@ namespace m5imu {
     /**
      * Check if orientation matches a specific value
      */
-    //% blockId=imu6886_is_orientation 
+    //% blockId=m5imu_is_orientation 
     //% block="%value|is %orientation"
+    //% value.shadow="m5imu_orientation"
     //% weight=83.5
     //% group="Accelerometer"
     export function isOrientation(value: number, orientation: Orientation): boolean {
@@ -330,7 +335,7 @@ namespace m5imu {
     /**
      * Register code to run when orientation changes
      */
-    //% blockId=imu6886_on_orientation_change 
+    //% blockId=m5imu_on_orientation_change 
     //% block="on orientation changed"
     //% weight=83
     //% group="Accelerometer"
@@ -360,7 +365,7 @@ namespace m5imu {
      * Get acceleration value for a specific axis in G
      * @param axis the axis to read from
      */
-    //% blockId=imu6886_get_accel block="acceleration (G) %axis"
+    //% blockId=m5imu_get_accel block="acceleration (G) %axis"
     //% weight=90
     //% group="Accelerometer"
     export function getAcceleration(axis: Axis): number {
@@ -396,7 +401,7 @@ namespace m5imu {
      * Get gyroscope value for a specific axis in degrees per second
      * @param axis the axis to read from
      */
-    //% blockId=imu6886_get_gyro block="gyroscope (DPS) %axis"
+    //% blockId=m5imu_get_gyro block="gyroscope (DPS) %axis"
     //% weight=80
     //% group="Gyroscope"
     export function getGyroscope(axis: Axis): number {
@@ -415,9 +420,9 @@ namespace m5imu {
      * Set accelerometer full scale range
      * @param scale the scale to set
      */
-    //% blockId=imu6886_set_accel_scale block="set accelerometer scale %scale"
+    //% blockId=m5imu_set_accel_scale block="set accelerometer scale %scale"
     //% weight=60
-    //% group="Advanced"
+    //% group="Accelerometer"
     //% advanced=true
     export function setAccelScale(scale: AccelScale): void {
         if (!initialized) init()
@@ -432,9 +437,9 @@ namespace m5imu {
      * Set gyroscope full scale range
      * @param scale the scale to set
      */
-    //% blockId=imu6886_set_gyro_scale block="set gyroscope scale %scale"
+    //% blockId=m5imu_set_gyro_scale block="set gyroscope scale %scale"
     //% weight=50
-    //% group="Advanced"
+    //% group="Gyroscope"
     //% advanced=true
     export function setGyroScale(scale: GyroScale): void {
         if (!initialized) init()
@@ -449,9 +454,9 @@ namespace m5imu {
      * Enable or disable FIFO
      * @param enable true to enable, false to disable
      */
-    //% blockId=imu6886_fifo_enable block="set FIFO %enable"
+    //% blockId=m5imu_fifo_enable block="set FIFO %enable"
     //% weight=40
-    //% group="Advanced"
+    //% group="FIFO"
     //% advanced=true
     export function setFIFOEnable(enable: boolean): void {
         if (!initialized) init()
@@ -463,9 +468,9 @@ namespace m5imu {
     /**
      * Read FIFO count
      */
-    //% blockId=imu6886_read_fifo_count block="FIFO count"
+    //% blockId=m5imu_read_fifo_count block="FIFO count"
     //% weight=30
-    //% group="Advanced"
+    //% group="FIFO"
     //% advanced=true
     export function readFIFOCount(): number {
         if (!initialized) init()
@@ -477,9 +482,9 @@ namespace m5imu {
     /**
      * Reset FIFO
      */
-    //% blockId=imu6886_reset_fifo block="reset FIFO"
+    //% blockId=m5imu_reset_fifo block="reset FIFO"
     //% weight=20
-    //% group="Advanced"
+    //% group="FIFO"
     //% advanced=true
     export function resetFIFO(): void {
         if (!initialized) init()
@@ -491,9 +496,9 @@ namespace m5imu {
     /**
      * Get raw accelerometer ADC values (X axis)
      */
-    //% blockId=imu6886_get_accel_adc_x block="raw acceleration X"
+    //% blockId=m5imu_get_accel_adc_x block="raw acceleration X"
     //% weight=15
-    //% group="Advanced"
+    //% group="Accelerometer"
     //% advanced=true
     export function getAccelAdcX(): number {
         if (!initialized) init()
@@ -509,9 +514,9 @@ namespace m5imu {
     /**
      * Get raw accelerometer ADC values (Y axis)
      */
-    //% blockId=imu6886_get_accel_adc_y block="raw acceleration Y"
+    //% blockId=m5imu_get_accel_adc_y block="raw acceleration Y"
     //% weight=14
-    //% group="Advanced"
+    //% group="Accelerometer"
     //% advanced=true
     export function getAccelAdcY(): number {
         if (!initialized) init()
@@ -527,9 +532,9 @@ namespace m5imu {
     /**
      * Get raw accelerometer ADC values (Z axis)
      */
-    //% blockId=imu6886_get_accel_adc_z block="raw acceleration Z"
+    //% blockId=m5imu_get_accel_adc_z block="raw acceleration Z"
     //% weight=13
-    //% group="Advanced"
+    //% group="Accelerometer"
     //% advanced=true
     export function getAccelAdcZ(): number {
         if (!initialized) init()
@@ -545,9 +550,9 @@ namespace m5imu {
     /**
      * Get raw gyroscope ADC values (X axis)
      */
-    //% blockId=imu6886_get_gyro_adc_x block="raw gyroscope X"
+    //% blockId=m5imu_get_gyro_adc_x block="raw gyroscope X"
     //% weight=12
-    //% group="Advanced"
+    //% group="Gyroscope"
     //% advanced=true
     export function getGyroAdcX(): number {
         if (!initialized) init()
@@ -563,9 +568,9 @@ namespace m5imu {
     /**
      * Get raw gyroscope ADC values (Y axis)
      */
-    //% blockId=imu6886_get_gyro_adc_y block="raw gyroscope Y"
+    //% blockId=m5imu_get_gyro_adc_y block="raw gyroscope Y"
     //% weight=11
-    //% group="Advanced"
+    //% group="Gyroscope"
     //% advanced=true
     export function getGyroAdcY(): number {
         if (!initialized) init()
@@ -581,9 +586,9 @@ namespace m5imu {
     /**
      * Get raw gyroscope ADC values (Z axis)
      */
-    //% blockId=imu6886_get_gyro_adc_z block="raw gyroscope Z"
+    //% blockId=m5imu_get_gyro_adc_z block="raw gyroscope Z"
     //% weight=10
-    //% group="Advanced"
+    //% group="Gyroscope"
     //% advanced=true
     export function getGyroAdcZ(): number {
         if (!initialized) init()

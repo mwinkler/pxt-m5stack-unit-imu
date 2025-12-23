@@ -79,6 +79,19 @@ namespace m5imu {
         Back = 5
     }
 
+    /**
+     * Enum for device rotation derived from gyroscope
+     */
+    export enum Rotation {
+        X_CW = 0,
+        X_CCW = 1,
+        Y_CW = 2,
+        Y_CCW = 3,
+        Z_CW = 4,
+        Z_CCW = 5,
+        None = 6
+    }
+
     let initialized = false
     let aRes = 8.0 / 32768.0  // Default ±8G
     let gRes = 2000.0 / 32768.0  // Default ±2000 DPS
@@ -234,6 +247,52 @@ namespace m5imu {
             return a.y >= 0 ? Orientation.Up : Orientation.Down
         }
         return a.z >= 0 ? Orientation.Front : Orientation.Back
+    }
+
+    /**
+     * Determine dominant rotation based on current gyroscope
+     */
+    //% blockId=imu6886_rotation block="rotation"
+    //% weight=79
+    //% group="Gyroscope"
+    export function getRotation(): Rotation {
+        const g = getGyroscopeXYZ()
+        const gx = Math.abs(g.x)
+        const gy = Math.abs(g.y)
+        const gz = Math.abs(g.z)
+
+        // Threshold for detecting rotation (DPS)
+        const threshold = 20
+        if (gx < threshold && gy < threshold && gz < threshold) {
+            return Rotation.None
+        }
+
+        if (gx >= gy && gx >= gz) {
+            return g.x >= 0 ? Rotation.X_CCW : Rotation.X_CW
+        }
+        if (gy >= gx && gy >= gz) {
+            return g.y >= 0 ? Rotation.Y_CCW : Rotation.Y_CW
+        }
+        return g.z >= 0 ? Rotation.Z_CCW : Rotation.Z_CW
+    }
+
+    /**
+     * Convert rotation to a string label
+     */
+    //% blockId=imu6886_rotation_name block="rotation name %rotation"
+    //% weight=78
+    //% group="Gyroscope"
+    export function getRotationName(rotation: Rotation): string {
+        switch (rotation) {
+            case Rotation.X_CW: return "x-cw"
+            case Rotation.X_CCW: return "x-ccw"
+            case Rotation.Y_CW: return "y-cw"
+            case Rotation.Y_CCW: return "y-ccw"
+            case Rotation.Z_CW: return "z-cw"
+            case Rotation.Z_CCW: return "z-ccw"
+            case Rotation.None: return "none"
+            default: return "unknown"
+        }
     }
 
     /**

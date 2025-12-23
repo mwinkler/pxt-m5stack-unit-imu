@@ -37,6 +37,8 @@ basic.forever(function () {
 - `resetFIFO()` – reset FIFO buffer
 - `getOrientation()` – returns current orientation enum (Up/Down/Left/Right/Front/Back)
 - `getOrientationName(orientation: Orientation)` – converts orientation to text
+- `getRotation()` – returns dominant rotation axis and direction from gyro (X-CW/X-CCW, Y-CW/Y-CCW, Z-CW/Z-CCW, None)
+- `getRotationName(rotation: Rotation)` – converts rotation to text
 - Raw ADC: `getAccelAdcX/Y/Z()`, `getGyroAdcX/Y/Z()`
 
 ### Enums
@@ -44,6 +46,7 @@ basic.forever(function () {
 - `AccelScale`: AFS_2G, AFS_4G, AFS_8G, AFS_16G
 - `GyroScale`: GFS_250DPS, GFS_500DPS, GFS_1000DPS, GFS_2000DPS
 - `Orientation`: Up, Down, Left, Right, Front, Back
+- `Rotation`: X-CW, X-CCW, Y-CW, Y-CCW, Z-CW, Z-CCW, None
 
 ## Notes
 - Uses MakeCode I2C helpers; no native shims required.

@@ -35,12 +35,15 @@ basic.forever(function () {
 - `setFIFOEnable(enable: boolean)` – enable/disable FIFO
 - `readFIFOCount()` – current FIFO byte count
 - `resetFIFO()` – reset FIFO buffer
+- `getOrientation()` – returns current orientation enum (Up/Down/Left/Right/Front/Back)
+- `getOrientationName(orientation: Orientation)` – converts orientation to text
 - Raw ADC: `getAccelAdcX/Y/Z()`, `getGyroAdcX/Y/Z()`
 
 ### Enums
 - `Axis`: X, Y, Z
 - `AccelScale`: AFS_2G, AFS_4G, AFS_8G, AFS_16G
 - `GyroScale`: GFS_250DPS, GFS_500DPS, GFS_1000DPS, GFS_2000DPS
+- `Orientation`: Up, Down, Left, Right, Front, Back
 
 ## Notes
 - Uses MakeCode I2C helpers; no native shims required.

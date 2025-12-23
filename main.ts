@@ -67,6 +67,18 @@ namespace m5imu {
         Z = 2
     }
 
+    /**
+     * Enum for device orientation derived from acceleration
+     */
+    export enum Orientation {
+        Up = 0,
+        Down = 1,
+        Left = 2,
+        Right = 3,
+        Front = 4,
+        Back = 5
+    }
+
     let initialized = false
     let aRes = 8.0 / 32768.0  // Default ±8G
     let gRes = 2000.0 / 32768.0  // Default ±2000 DPS
@@ -201,6 +213,45 @@ namespace m5imu {
         if (z > 32767) z -= 65536
         
         return {x: x * aRes, y: y * aRes, z: z * aRes}
+    }
+
+    /**
+     * Determine orientation based on current acceleration
+     */
+    //% blockId=imu6886_orientation block="orientation"
+    //% weight=85
+    //% group="Accelerometer"
+    export function getOrientation(): Orientation {
+        const a = getAccelerationXYZ()
+        const ax = Math.abs(a.x)
+        const ay = Math.abs(a.y)
+        const az = Math.abs(a.z)
+
+        if (ax >= ay && ax >= az) {
+            return a.x >= 0 ? Orientation.Right : Orientation.Left
+        }
+        if (ay >= ax && ay >= az) {
+            return a.y >= 0 ? Orientation.Up : Orientation.Down
+        }
+        return a.z >= 0 ? Orientation.Front : Orientation.Back
+    }
+
+    /**
+     * Convert orientation to a string label
+     */
+    //% blockId=imu6886_orientation_name block="orientation name %orientation"
+    //% weight=84
+    //% group="Accelerometer"
+    export function getOrientationName(orientation: number): string {
+        switch (orientation) {
+            case Orientation.Up: return "up"
+            case Orientation.Down: return "down"
+            case Orientation.Left: return "left"
+            case Orientation.Right: return "right"
+            case Orientation.Front: return "front"
+            case Orientation.Back: return "back"
+            default: return "unknown"
+        }
     }
 
     /**

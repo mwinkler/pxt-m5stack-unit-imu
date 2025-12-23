@@ -5,9 +5,9 @@ Pure TypeScript MakeCode extension for the M5Stack Unit IMU based on the MPU6886
 ## Features
 - Accelerometer (±2/4/8/16 G)
 - Gyroscope (±250/500/1000/2000 DPS)
-- Temperature sensor
 - FIFO control and raw ADC access
 - No C++ shims; uses MakeCode I2C APIs only
+- Events for rotation and orientation changes
 
 ## Installation
 Add this repository as an extension in MakeCode (Import -> Import URL).
@@ -15,7 +15,7 @@ Add this repository as an extension in MakeCode (Import -> Import URL).
 ## Quick Start
 ```typescript
 // Initialize (uses default I2C pins of the target)
-
+m5imu.init()
 
 basic.forever(function () {
     const ax = m5imu.getAcceleration(m5imu.Axis.X)
@@ -28,7 +28,6 @@ basic.forever(function () {
 - `init()` – initialize the sensor
 - `getAcceleration(axis: Axis)` – acceleration in G
 - `getGyroscope(axis: Axis)` – angular velocity in DPS
-- `getTemperature()` – temperature in °C
 - `setAccelScale(scale: AccelScale)` – set accelerometer range
 - `setGyroScale(scale: GyroScale)` – set gyroscope range
 - `setFIFOEnable(enable: boolean)` – enable/disable FIFO

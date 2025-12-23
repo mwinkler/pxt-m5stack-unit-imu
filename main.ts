@@ -100,6 +100,9 @@ namespace m5imu {
     let lastOrientation: Orientation = null
     let orientationEventId = 3100
     let orientationMonitorStarted = false
+    let lastRotation: Rotation = null
+    let rotationEventId = 3101
+    let rotationMonitorStarted = false
     
     // Helper functions for I2C communication
     function writeReg(reg: number, value: number): void {
@@ -355,6 +358,35 @@ namespace m5imu {
                         control.raiseEvent(orientationEventId, current)
                     } 
                     lastOrientation = current
+                    basic.pause(100)
+                }
+            })
+        }
+    }
+
+    /**
+     * Register code to run when rotation changes
+     */
+    //% blockId=m5imu_on_rotation_change 
+    //% block="on rotation changed"
+    //% weight=77
+    //% group="Gyroscope"
+    //% draggableParameters
+    export function onRotationChanged(handler: (rotation: Rotation) => void): void {
+        control.onEvent(rotationEventId, EventBusValue.MICROBIT_EVT_ANY, () => {
+            handler(lastRotation)
+        })
+        
+        if (!rotationMonitorStarted) {
+            rotationMonitorStarted = true
+            control.inBackground(() => {
+                while (true) {
+                    const current = getRotation()
+                    if (current !== lastRotation && lastRotation !== null) {
+                        lastRotation = current
+                        control.raiseEvent(rotationEventId, current)
+                    } 
+                    lastRotation = current
                     basic.pause(100)
                 }
             })

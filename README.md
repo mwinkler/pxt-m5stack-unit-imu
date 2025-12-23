@@ -20,7 +20,6 @@ Add this repository as an extension in MakeCode (Import -> Import URL).
 basic.forever(function () {
     const ax = m5imu.getAcceleration(m5imu.Axis.X)
     const gy = m5imu.getGyroscope(m5imu.Axis.Y)
-    const t = m5imu.getTemperature()
     basic.pause(100)
 })
 ```
@@ -41,6 +40,7 @@ basic.forever(function () {
 - `onOrientationChanged(handler: (orientation: Orientation) => void)` – event triggered when orientation changes
 - `getRotation()` – returns dominant rotation axis using aviation conventions (Roll_Right/Roll_Left, Pitch_Up/Pitch_Down, Yaw_Right/Yaw_Left, None)
 - `getRotationName(rotation: Rotation)` – converts rotation to text
+- `onRotationChanged(handler: (rotation: Rotation) => void)` – event triggered when rotation changes
 - Raw ADC: `getAccelAdcX/Y/Z()`, `getGyroAdcX/Y/Z()`
 
 ### Enums

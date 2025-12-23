@@ -71,8 +71,8 @@ namespace m5imu {
      * Enum for device orientation derived from acceleration
      */
     export enum Orientation {
-        Up = 0,
-        Down = 1,
+        Top = 0,
+        Bottom = 1,
         Left = 2,
         Right = 3,
         Front = 4,
@@ -83,12 +83,12 @@ namespace m5imu {
      * Enum for device rotation derived from gyroscope
      */
     export enum Rotation {
-        X_CW = 0,
-        X_CCW = 1,
-        Y_CW = 2,
-        Y_CCW = 3,
-        Z_CW = 4,
-        Z_CCW = 5,
+        Roll_Right = 0,
+        Roll_Left = 1,
+        Pitch_Up = 2,
+        Pitch_Down = 3,
+        Yaw_Right = 4,
+        Yaw_Left = 5,
         None = 6
     }
 
@@ -244,9 +244,9 @@ namespace m5imu {
             return a.x >= 0 ? Orientation.Right : Orientation.Left
         }
         if (ay >= ax && ay >= az) {
-            return a.y >= 0 ? Orientation.Up : Orientation.Down
+            return a.y >= 0 ? Orientation.Front : Orientation.Back
         }
-        return a.z >= 0 ? Orientation.Front : Orientation.Back
+        return a.z >= 0 ? Orientation.Top : Orientation.Bottom
     }
 
     /**
@@ -268,12 +268,12 @@ namespace m5imu {
         }
 
         if (gx >= gy && gx >= gz) {
-            return g.x >= 0 ? Rotation.X_CCW : Rotation.X_CW
+            return g.x >= 0 ? Rotation.Pitch_Up : Rotation.Pitch_Down
         }
         if (gy >= gx && gy >= gz) {
-            return g.y >= 0 ? Rotation.Y_CCW : Rotation.Y_CW
+            return g.y >= 0 ? Rotation.Roll_Right : Rotation.Roll_Left
         }
-        return g.z >= 0 ? Rotation.Z_CCW : Rotation.Z_CW
+        return g.z >= 0 ? Rotation.Yaw_Left : Rotation.Yaw_Right
     }
 
     /**
@@ -284,12 +284,12 @@ namespace m5imu {
     //% group="Gyroscope"
     export function getRotationName(rotation: Rotation): string {
         switch (rotation) {
-            case Rotation.X_CW: return "x-cw"
-            case Rotation.X_CCW: return "x-ccw"
-            case Rotation.Y_CW: return "y-cw"
-            case Rotation.Y_CCW: return "y-ccw"
-            case Rotation.Z_CW: return "z-cw"
-            case Rotation.Z_CCW: return "z-ccw"
+            case Rotation.Roll_Right: return "roll right"
+            case Rotation.Roll_Left: return "roll left"
+            case Rotation.Pitch_Up: return "pitch up"
+            case Rotation.Pitch_Down: return "pitch down"
+            case Rotation.Yaw_Right: return "yaw right"
+            case Rotation.Yaw_Left: return "yaw left"
             case Rotation.None: return "none"
             default: return "unknown"
         }
@@ -303,8 +303,8 @@ namespace m5imu {
     //% group="Accelerometer"
     export function getOrientationName(orientation: number): string {
         switch (orientation) {
-            case Orientation.Up: return "up"
-            case Orientation.Down: return "down"
+            case Orientation.Top: return "top"
+            case Orientation.Bottom: return "bottom"
             case Orientation.Left: return "left"
             case Orientation.Right: return "right"
             case Orientation.Front: return "front"

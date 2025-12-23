@@ -97,6 +97,9 @@ namespace m5imu {
     let gRes = 2000.0 / 32768.0  // Default ±2000 DPS
     let currentAccelScale = AccelScale.AFS_8G
     let currentGyroScale = GyroScale.GFS_2000DPS
+    let lastOrientation: Orientation = null
+    let orientationEventId = 3100
+    let orientationMonitorStarted = false
     
     // Helper functions for I2C communication
     function writeReg(reg: number, value: number): void {
@@ -282,7 +285,7 @@ namespace m5imu {
     //% blockId=imu6886_rotation_name block="rotation name %rotation"
     //% weight=78
     //% group="Gyroscope"
-    export function getRotationName(rotation: Rotation): string {
+    export function getRotationName(rotation: number): string {
         switch (rotation) {
             case Rotation.Roll_Right: return "roll right"
             case Rotation.Roll_Left: return "roll left"
@@ -310,6 +313,46 @@ namespace m5imu {
             case Orientation.Front: return "front"
             case Orientation.Back: return "back"
             default: return "unknown"
+        }
+    }
+
+    /**
+     * Check if orientation matches a specific value
+     */
+    //% blockId=imu6886_is_orientation 
+    //% block="%value|is %orientation"
+    //% weight=83.5
+    //% group="Accelerometer"
+    export function isOrientation(value: number, orientation: Orientation): boolean {
+        return value === orientation
+    }
+
+    /**
+     * Register code to run when orientation changes
+     */
+    //% blockId=imu6886_on_orientation_change 
+    //% block="on orientation changed"
+    //% weight=83
+    //% group="Accelerometer"
+    //% draggableParameters
+    export function onOrientationChanged(handler: (orientation: Orientation) => void): void {
+        control.onEvent(orientationEventId, EventBusValue.MICROBIT_EVT_ANY, () => {
+            handler(lastOrientation)
+        })
+        
+        if (!orientationMonitorStarted) {
+            orientationMonitorStarted = true
+            control.inBackground(() => {
+                while (true) {
+                    const current = getOrientation()
+                    if (current !== lastOrientation && lastOrientation !== null) {
+                        lastOrientation = current
+                        control.raiseEvent(orientationEventId, current)
+                    } 
+                    lastOrientation = current
+                    basic.pause(100)
+                }
+            })
         }
     }
 

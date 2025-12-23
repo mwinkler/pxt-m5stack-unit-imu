@@ -37,6 +37,8 @@ basic.forever(function () {
 - `resetFIFO()` – reset FIFO buffer
 - `getOrientation()` – returns current orientation enum (Top/Bottom/Left/Right/Front/Back)
 - `getOrientationName(orientation: Orientation)` – converts orientation to text
+- `isOrientation(value: Orientation, orientation: Orientation)` – checks if value matches specific orientation
+- `onOrientationChanged(handler: (orientation: Orientation) => void)` – event triggered when orientation changes
 - `getRotation()` – returns dominant rotation axis using aviation conventions (Roll_Right/Roll_Left, Pitch_Up/Pitch_Down, Yaw_Right/Yaw_Left, None)
 - `getRotationName(rotation: Rotation)` – converts rotation to text
 - Raw ADC: `getAccelAdcX/Y/Z()`, `getGyroAdcX/Y/Z()`

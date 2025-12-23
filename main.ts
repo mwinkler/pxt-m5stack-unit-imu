@@ -187,14 +187,7 @@ namespace m5imu {
         initialized = true
     }
 
-    /**
-     * Get acceleration value for a specific axis in G
-     * @param axis the axis to read from
-     */
-    //% blockId=imu6886_get_accel block="acceleration (G) %axis"
-    //% weight=90
-    //% group="Accelerometer"
-    export function getAcceleration(axis: Axis): number {
+    export function getAccelerationXYZ(): {x: number, y: number, z: number} {
         if (!initialized) init()
         
         let buf = readRegs(IMU_ACCEL_XOUT_H, 6)
@@ -207,26 +200,31 @@ namespace m5imu {
         if (y > 32767) y -= 65536
         if (z > 32767) z -= 65536
         
+        return {x: x * aRes, y: y * aRes, z: z * aRes}
+    }
+
+    /**
+     * Get acceleration value for a specific axis in G
+     * @param axis the axis to read from
+     */
+    //% blockId=imu6886_get_accel block="acceleration (G) %axis"
+    //% weight=90
+    //% group="Accelerometer"
+    export function getAcceleration(axis: Axis): number {
         switch (axis) {
             case Axis.X:
-                return x * aRes
+                return getAccelerationXYZ().x
             case Axis.Y:
-                return y * aRes
+                return getAccelerationXYZ().y
             case Axis.Z:
-                return z * aRes
+                return getAccelerationXYZ().z
         }
         return 0
     }
 
-    /**
-     * Get gyroscope value for a specific axis in degrees per second
-     * @param axis the axis to read from
-     */
-    //% blockId=imu6886_get_gyro block="gyroscope (DPS) %axis"
-    //% weight=80
-    //% group="Gyroscope"
-    export function getGyroscope(axis: Axis): number {
-        if (!initialized) init()
+    export function getGyroscopeXYZ(): {x: number, y: number, z: number} {
+        if (!initialized)
+            init()
         
         let buf = readRegs(IMU_GYRO_XOUT_H, 6)
         let x = (buf[0] << 8) | buf[1]
@@ -238,33 +236,26 @@ namespace m5imu {
         if (y > 32767) y -= 65536
         if (z > 32767) z -= 65536
         
-        switch (axis) {
-            case Axis.X:
-                return x * gRes
-            case Axis.Y:
-                return y * gRes
-            case Axis.Z:
-                return z * gRes
-        }
-        return 0
+        return {x: x * gRes, y: y * gRes, z: z * gRes}
     }
 
     /**
-     * Get temperature in celsius
+     * Get gyroscope value for a specific axis in degrees per second
+     * @param axis the axis to read from
      */
-    //% blockId=imu6886_get_temp block="temperature (°C)"
-    //% weight=70
-    //% group="Temperature"
-    export function getTemperature(): number {
-        if (!initialized) init()
-        
-        let buf = readRegs(IMU_TEMP_OUT_H, 2)
-        let temp = (buf[0] << 8) | buf[1]
-        
-        // Convert to signed 16-bit
-        if (temp > 32767) temp -= 65536
-        
-        return temp / 326.8 + 25.0
+    //% blockId=imu6886_get_gyro block="gyroscope (DPS) %axis"
+    //% weight=80
+    //% group="Gyroscope"
+    export function getGyroscope(axis: Axis): number {
+        switch (axis) {
+            case Axis.X:
+                return getGyroscopeXYZ().x
+            case Axis.Y:
+                return getGyroscopeXYZ().y
+            case Axis.Z:
+                return getGyroscopeXYZ().z
+        }
+        return 0
     }
 
     /**
